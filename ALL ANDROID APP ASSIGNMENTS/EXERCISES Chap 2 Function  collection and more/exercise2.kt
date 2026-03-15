@@ -1,3 +1,4 @@
+//EXERCISE 2: Transforming between collection types
 fun main() {
 
     val words = listOf("Apple", "Cat", "Banana", "Dog", "Elephant", "Car")

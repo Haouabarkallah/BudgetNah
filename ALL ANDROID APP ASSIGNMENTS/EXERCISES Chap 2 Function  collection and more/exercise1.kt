@@ -1,3 +1,6 @@
+//EXERCISE 1: Build your own higher-order function
+
+
 // Fonction qui traite une liste avec une lambda
 fun processList(numbers: List<Int>, predicate: (Int) -> Boolean): List<Int> {
 

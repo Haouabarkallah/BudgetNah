@@ -1,9 +1,9 @@
+
 // Interface pour le calcul de note
 
 interface Gradable {
     fun calculateGrade(): String
 }
-
 
 // Classe abstraite Person
 
@@ -13,13 +13,47 @@ abstract class Person(
     abstract fun describe(): String
 }
 
+// Data class Subject
 
+data class Subject(
+    val name: String,
+    val score: Double?
+)
+
+// Classe Semester
+
+class Semester(
+    val title: String,
+    val subjects: List<Subject>
+) {
+
+    fun calculateGPA(): Double {
+
+        val validScores = subjects.mapNotNull { it.score }
+
+        if (validScores.isEmpty()) return 0.0
+
+        val grades = validScores.map {
+
+            when {
+                it >= 90 -> 4.0
+                it >= 80 -> 3.0
+                it >= 70 -> 2.0
+                it >= 60 -> 1.0
+                else -> 0.0
+            }
+        }
+
+        return grades.average()
+    }
+}
 
 // Data class Student
 
 data class Student(
     override val name: String,
-    val score: Double?
+    val score: Double?,
+    val semester: Semester? = null
 ) : Person(name), Gradable {
 
     override fun calculateGrade(): String {
@@ -36,15 +70,20 @@ data class Student(
     }
 
     override fun describe(): String {
-        return if (score == null) {
+
+        val baseInfo = if (score == null) {
             "No score for $name"
         } else {
             "$name scored $score : Grade ${calculateGrade()}"
         }
+
+        // Scope function
+        return semester?.let {
+            val gpa = "%.2f".format(it.calculateGPA())
+            "$baseInfo | Semester: ${it.title} | GPA: $gpa"
+        } ?: baseInfo
     }
 }
-
-
 
 // Classe Teacher
 
@@ -62,22 +101,39 @@ class Teacher(
     }
 }
 
-
-// Classe principale
+// Programme principal
 
 fun main() {
 
-    // Polymorphisme : différentes classes dans une même liste
-    val people: List<Person> = listOf(
-        Student("Amira", 92.0),
-        Student("Bovan", 74.0),
-        Student("Clavia", null),
-        Teacher("Mr.Mbarga ", "Mathematics")
+    val semester1 = Semester(
+        "Semester 1",
+        listOf(
+            Subject("Math", 92.0),
+            Subject("Physics", 85.0),
+            Subject("Programming", 88.0)
+        )
     )
 
-    println("=== School Members ===")
+    val semester2 = Semester(
+        "Semester 2",
+        listOf(
+            Subject("Math", 74.0),
+            Subject("Physics", 69.0),
+            Subject("Programming", 80.0)
+        )
+    )
 
-    // appel polymorphique
+
+    // Polymorphisme
+    val people: List<Person> = listOf(
+        Student("Amira", 92.0, semester1),
+        Student("Bovan", 74.0, semester2),
+        Student("Clavia", null, null),
+        Teacher("Mr.Mbarga", "Mathematics")
+    )
+
+    println("School Members ")
+
     for (person in people) {
         println(person.describe())
     }
