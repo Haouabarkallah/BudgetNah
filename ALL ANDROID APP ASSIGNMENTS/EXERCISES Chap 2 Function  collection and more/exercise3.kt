@@ -3,12 +3,12 @@ data class Person(val name: String, val age: Int)
 fun main() {
 
     val people = listOf(
-        Person("Alice", 22),
-        Person("Bob", 30),
-        Person("Anna", 25),
-        Person("David", 40),
-        Person("Brian", 28),
-        Person("Chris", 35)
+        Person("Amira", 22),
+        Person("Bovan", 30),
+        Person("Agbor", 25),
+        Person("Daoud", 40),
+        Person("Brinda", 28),
+        Person("Carlos", 35),
     )
 
     // Filtrer les noms qui commencent par A ou B
