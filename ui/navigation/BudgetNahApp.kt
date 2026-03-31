@@ -59,7 +59,7 @@ private val bottomNavItems = listOf(
 
 // ---------------------------------------------------------------------------
 <<<<<<< HEAD
-// Root composable in chanhge
+// Root composable th
 =======
 // 
 >>>>>>> main
